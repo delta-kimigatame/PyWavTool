@@ -23,6 +23,22 @@ class Whd:
     __framerate: int
     __nframes: int
 
+    @property
+    def nchannels(self):
+        return self.__nchannels
+    
+    @property
+    def samplewidth(self):
+        return self.__samplewidth
+    
+    @property
+    def framerate(self):
+        return self.__framerate
+    
+    @property
+    def nframes(self):
+        return self.__nframes
+
     def __init__(self, whdfile:str=""):
         '''
         Parameters
@@ -35,7 +51,7 @@ class Whd:
             self.__read(whdfile)
         else:
             self.__nchannels = 1
-            self.__samplewidth = 2
+            self.__samplewidth = 16
             self.__framerate = 44100
             self.__nframes = 0
 
@@ -51,10 +67,10 @@ class Whd:
         '''
         with open(whdfile, "rb") as fr:
             data:bytes = fr.read()
-            self.__nchannels = int.from_bytes(data[22:24])
-            self.__framerate = int.from_bytes(data[24:28])
-            self.__samplewidth = int.from_bytes(data[34:36])
-            self.__nframes = int.from_bytes(data[40:44]) / self.__samplewidth
+            self.__nchannels = int.from_bytes(data[22:24], 'little')
+            self.__framerate = int.from_bytes(data[24:28], 'little')
+            self.__samplewidth = int.from_bytes(data[34:36], 'little')
+            self.__nframes = int.from_bytes(data[40:44], 'little') / self.__samplewidth *8
 
     def addframes(self, delta: int):
         '''
@@ -75,18 +91,19 @@ class Whd:
         output : whdファイルのパス。
             不足するディレクトリは自動で作成する。
         '''
-        os.makedirs(os.path.split(output)[0], exist_ok=True)
+        if(os.path.split(output)[0] != ""):
+            os.makedirs(os.path.split(output)[0], exist_ok=True)
         with open(output+".whd", "wb") as fw:
             fw.write(b"RIFF")
-            fw.write((self.__nframes*self.__samplewidth + 114).to_bytes(4, 'little'))
+            fw.write(int((self.__nframes*self.__samplewidth/8 + 114)).to_bytes(4, 'little'))
             fw.write(b"WAVE")
             fw.write(b"fmt ")
             fw.write((16).to_bytes(4, 'little'))
             fw.write((1).to_bytes(2, 'little'))
             fw.write(self.__nchannels.to_bytes(2, 'little'))
             fw.write(self.__framerate.to_bytes(4, 'little'))
-            fw.write((self.__framerate * self.__samplewidth * self.__nchannels).to_bytes(4, 'little'))
-            fw.write((self.__samplewidth * self.__nchannels).to_bytes(2, 'little'))
+            fw.write(int((self.__framerate * self.__samplewidth/8 * self.__nchannels)).to_bytes(4, 'little'))
+            fw.write(int((self.__samplewidth/8 * self.__nchannels)).to_bytes(2, 'little'))
             fw.write((self.__samplewidth).to_bytes(2, 'little'))
             fw.write(b"data")
-            fw.write((self.__nframes*self.__samplewidth).to_bytes(4, 'little'))
+            fw.write(int((self.__nframes*self.__samplewidth/8)).to_bytes(4, 'little'))

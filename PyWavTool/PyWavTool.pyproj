@@ -35,6 +35,13 @@
       <Architecture>X64</Architecture>
     </Interpreter>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="testdata\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="testdata\220.wav" />
+    <Content Include="testdata\440.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in

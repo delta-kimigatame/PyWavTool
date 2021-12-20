@@ -24,19 +24,19 @@ class Whd:
     __nframes: int
 
     @property
-    def nchannels(self):
+    def nchannels(self) -> int:
         return self.__nchannels
     
     @property
-    def samplewidth(self):
+    def samplewidth(self) -> int:
         return self.__samplewidth
     
     @property
-    def framerate(self):
+    def framerate(self) -> int:
         return self.__framerate
     
     @property
-    def nframes(self):
+    def nframes(self) -> int:
         return self.__nframes
 
     def __init__(self, whdfile:str=""):

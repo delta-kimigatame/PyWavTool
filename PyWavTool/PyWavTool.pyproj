@@ -26,6 +26,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PyWavTool.py" />
+    <Compile Include="tests\test_pywavtool.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\test_whd.py">
       <SubType>Code</SubType>
     </Compile>
@@ -54,6 +57,9 @@
   <ItemGroup>
     <Content Include="testdata\220.wav" />
     <Content Include="testdata\440.wav" />
+    <Content Include="testdata\test.txt">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

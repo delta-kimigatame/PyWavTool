@@ -6,7 +6,7 @@ import argparse
 
 import whd
 
-ARROW_ENVELOPE_VALUES = [2, 8, 9, 10]
+ARROW_ENVELOPE_VALUES = [2, 7, 8, 9, 11]
 
 
 class WavTool:
@@ -28,8 +28,9 @@ class WavTool:
     envelope : list
         エンベロープのパターンは以下のいずれかです。
             p1 p2
-            p1 p2 p3 v1 v2 v3 v4 ove
             p1 p2 p3 v1 v2 v3 v4
+            p1 p2 p3 v1 v2 v3 v4 ove
+            p1 p2 p3 v1 v2 v3 v4 ove p4
             p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
         p1,p2,p3,p4,p5,ove : float
         v1,v2,v3,v4,v5 : int
@@ -43,6 +44,10 @@ class WavTool:
     __length: float
     __data: list
     __header: whd.Whd
+
+    @property
+    def error(self) -> bool:
+        return self.__error
 
     def __init__(self,
                  output: str,
@@ -64,8 +69,9 @@ class WavTool:
         envelope : list
             エンベロープのパターンは以下のいずれかです。
                 p1 p2
-                p1 p2 p3 v1 v2 v3 v4 ove
                 p1 p2 p3 v1 v2 v3 v4
+                p1 p2 p3 v1 v2 v3 v4 ove
+                p1 p2 p3 v1 v2 v3 v4 ove p4
                 p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
             p1,p2,p3,p4,p5,ove : float
             v1,v2,v3,v4,v5 : int
@@ -88,8 +94,9 @@ class WavTool:
         envelope : list
             エンベロープのパターンは以下のいずれかです。
                 p1 p2
-                p1 p2 p3 v1 v2 v3 v4 ove
                 p1 p2 p3 v1 v2 v3 v4
+                p1 p2 p3 v1 v2 v3 v4 ove
+                p1 p2 p3 v1 v2 v3 v4 ove p4
                 p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
             p1,p2,p3,p4,p5,ove : float
             v1,v2,v3,v4,v5 : int
@@ -124,6 +131,7 @@ if __name__ == '__main__':
                         help='envelope patern ' +
                         '\'p1 p2\' or \'p1 p2 p3 v1 v2 v3 v4 ove\'' +
                         ' or \'p1 p2 p3 v1 v2 v3 v4' +
+                        ' or \'p1 p2 p3 v1 v2 v3 v4 ove p4' +
                         ' or \'p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5\'')
     args = parser.parse_args()
     if (len(args.envelope) not in ARROW_ENVELOPE_VALUES):

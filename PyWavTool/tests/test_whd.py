@@ -9,7 +9,7 @@ import whd
 class TestWhd(unittest.TestCase):
     def setUp(self):
         try:
-            os.remove("savetest.wav.whd")
+            os.remove("writetest.wav.whd")
         except:
             pass
         shutil.rmtree("test_output", ignore_errors=True)
@@ -21,17 +21,17 @@ class TestWhd(unittest.TestCase):
         self.assertEqual(head.samplewidth,16)
         self.assertEqual(head.nframes,0)
 
-    def test_SaveWhd(self):
+    def test_WriteWhd(self):
         head=whd.Whd()
-        self.assertFalse(os.path.isfile("savetest.wav.whd"))
-        head.save("savetest.wav")
-        self.assertTrue(os.path.isfile("savetest.wav.whd"))
+        self.assertFalse(os.path.isfile("writetest.wav.whd"))
+        head.write("writetest.wav")
+        self.assertTrue(os.path.isfile("writetest.wav.whd"))
         
-    def test_SaveWhd_NoDir(self):
+    def test_WriteWhd_NoDir(self):
         head=whd.Whd()
-        self.assertFalse(os.path.isfile(os.path.join("test_output","savetest.wav.whd")))
-        head.save(os.path.join("test_output","savetest.wav"))
-        self.assertTrue(os.path.isfile(os.path.join("test_output","savetest.wav.whd")))
+        self.assertFalse(os.path.isfile(os.path.join("test_output","writetest.wav.whd")))
+        head.write(os.path.join("test_output","writetest.wav"))
+        self.assertTrue(os.path.isfile(os.path.join("test_output","writetest.wav.whd")))
 
     def test_Read(self):
         head=whd.Whd(os.path.join("testdata","440.wav.whd"))
@@ -55,15 +55,15 @@ class TestWhd(unittest.TestCase):
 class TestOutputWhdRead(unittest.TestCase):
     def setUp(self):
         try:
-            os.remove("savereadtest.wav.whd")
+            os.remove("writereadtest.wav.whd")
         except:
             pass
         head=whd.Whd()
         head.addframes(44100)
-        head.save("savereadtest.wav")
+        head.write("writereadtest.wav")
 
     def test_ReadOutputData(self):
-        head=whd.Whd("savereadtest.wav.whd")
+        head=whd.Whd("writereadtest.wav.whd")
         self.assertEqual(head.nchannels, 1)
         self.assertEqual(head.framerate, 44100)
         self.assertEqual(head.samplewidth,16)

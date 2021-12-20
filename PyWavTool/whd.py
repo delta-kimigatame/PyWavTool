@@ -43,7 +43,8 @@ class Whd:
         '''
         Parameters
         ----------
-        whdfile : whdファイルのパス。
+        whdfile : str default ""
+            whdファイルのパス。
             引数が与えられない場合やパスが無効な場合初期化されます。
         '''
 
@@ -83,7 +84,7 @@ class Whd:
         '''
         self.__nframes += delta
 
-    def save(self, output: str):
+    def write(self, output: str):
         '''
         whdファイルをoutput.whdというファイル名保存する。
         Parameters

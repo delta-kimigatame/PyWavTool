@@ -95,7 +95,7 @@ class Whd:
             os.makedirs(os.path.split(output)[0], exist_ok=True)
         with open(output+".whd", "wb") as fw:
             fw.write(b"RIFF")
-            fw.write(int((self.__nframes*self.__samplewidth/8 + 114)).to_bytes(4, 'little'))
+            fw.write(int((self.__nframes*self.__samplewidth/8 + 36)).to_bytes(4, 'little'))
             fw.write(b"WAVE")
             fw.write(b"fmt ")
             fw.write((16).to_bytes(4, 'little'))

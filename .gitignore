@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /PyWavTool/env
 /PyWavTool/test_output
 /PyWavTool/savereadtest.wav.whd
+/PyWavTool/writereadtest.wav.whd

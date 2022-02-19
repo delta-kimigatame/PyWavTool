@@ -37,17 +37,17 @@ class WavTool:
     header : whd.Whd
         .whdファイルを扱います。
     '''
-    __error: bool = False
-    __output: str
-    __input: str
-    __stp: float
-    __length: float
-    __data: list
-    __header: whd.Whd
+    _error: bool = False
+    _output: str
+    _input: str
+    _stp: float
+    _length: float
+    _data: list
+    _header: whd.Whd
 
     @property
     def error(self) -> bool:
-        return self.__error
+        return self._error
 
     def __init__(self,
                  output: str,
@@ -76,15 +76,15 @@ class WavTool:
             p1,p2,p3,p4,p5,ove : float
             v1,v2,v3,v4,v5 : int
         '''
-        self.__inputCheck(output,input,envelope)
+        self._inputCheck(output,input,envelope)
         os.makedirs(os.path.split(output)[0], exist_ok=True)
-        self.__header = whd.Whd(output + ".whd")
+        self._header = whd.Whd(output + ".whd")
 
-    def __inputCheck(self,output,input,envelope):
+    def _inputCheck(self,output,input,envelope):
         '''
         入力値が正しいかチェックします。
-        正常値の場合、self.__dataにwavの中身を代入します。
-        異常値の場合、self.__errorをTrueにします。
+        正常値の場合、self._dataにwavの中身を代入します。
+        異常値の場合、self._errorをTrueにします。
         Parameters
         ----------
         ourput : str
@@ -104,16 +104,16 @@ class WavTool:
         if (len(envelope) not in ARROW_ENVELOPE_VALUES):
             # エンベロープがパターンにマッチしているか確認
             print("value error:envelope patern is not matching.")
-            self.__error = True
+            self._error = True
         if (not os.path.isfile(input)):
             print("input file is not found:{}".format(input))
-            self.__error = True
+            self._error = True
         try:
             with wave.open(input,"rb") as wr:
-                self.__data=wr.readframes(wr.getnframes())
+                self._data=wr.readframes(wr.getnframes())
         except:
             print("file format error:{} is not wave.".format(input))
-            self.__error = True
+            self._error = True
 
 
 

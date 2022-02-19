@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>PyWavTool module &#8212; PyWavTool 1.0.0 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="whd module" href="whd.html" />
+    <link rel="prev" title="Welcome to PyWavTool&#39;s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-PyWavTool">
+<span id="pywavtool-module"></span><h1>PyWavTool module<a class="headerlink" href="#module-PyWavTool" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyWavTool.WavTool">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyWavTool.</span></span><span class="sig-name descname"><span class="pre">WavTool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<div class="line-block">
+<div class="line">WavToolはUTAU標準のwavtoolをエミュレートします。</div>
+<div class="line">wavを入力し、waveヘッダ(.wav.whd)とwaveデータ(.wav.dat)を出力します。</div>
+<div class="line">すでにwhdとdatがある場合、datの末尾にデータを加え、whdを更新します。</div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.ourput">
+<span class="sig-name descname"><span class="pre">ourput</span></span><a class="headerlink" href="#PyWavTool.WavTool.ourput" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>出力するwavのパス</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.input">
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#PyWavTool.WavTool.input" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>入力するwavのパス</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.stp">
+<span class="sig-name descname"><span class="pre">stp</span></span><a class="headerlink" href="#PyWavTool.WavTool.stp" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>入力wavの先頭のオフセットをmsで指定する。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.length">
+<span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#PyWavTool.WavTool.length" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>datに追加する長さ(ms)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.envelope">
+<span class="sig-name descname"><span class="pre">envelope</span></span><a class="headerlink" href="#PyWavTool.WavTool.envelope" title="この定義へのパーマリンク">¶</a></dt>
+<dd><dl>
+<dt>エンベロープのパターンは以下のいずれかです。</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="n">p2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="n">p2</span> <span class="n">p3</span> <span class="n">v1</span> <span class="n">v2</span> <span class="n">v3</span> <span class="n">v4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="n">p2</span> <span class="n">p3</span> <span class="n">v1</span> <span class="n">v2</span> <span class="n">v3</span> <span class="n">v4</span> <span class="n">ove</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="n">p2</span> <span class="n">p3</span> <span class="n">v1</span> <span class="n">v2</span> <span class="n">v3</span> <span class="n">v4</span> <span class="n">ove</span> <span class="n">p4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="n">p2</span> <span class="n">p3</span> <span class="n">v1</span> <span class="n">v2</span> <span class="n">v3</span> <span class="n">v4</span> <span class="n">ove</span> <span class="n">p4</span> <span class="n">p5</span> <span class="n">v5</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line">p1,p2,p3,p4,p5,ove : float</div>
+<div class="line">v1,v2,v3,v4,v5 : int</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#PyWavTool.WavTool.header" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>.whdファイルを扱います。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="whd.html#whd.Whd" title="whd.Whd">whd.Whd</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.error">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyWavTool.WavTool.error" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyWavTool</a></h1>
+
+
+
+
+
+
+
+
+<h3>ナビゲーション</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PyWavTool module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whd.html">whd module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="前の章へ">Welcome to PyWavTool's documentation!</a></li>
+      <li>Next: <a href="whd.html" title="次の章へ">whd module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, delta_kimigatame.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/PyWavTool.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

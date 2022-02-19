@@ -11,9 +11,9 @@ ARROW_ENVELOPE_VALUES = [2, 7, 8, 9, 11]
 
 class WavTool:
     '''
-    WavToolはUTAU標準のwavtoolをエミュレートします。
-    wavを入力し、waveヘッダ(.wav.whd)とwaveデータ(.wav.dat)を出力します。
-    すでにwhdとdatがある場合、datの末尾にデータを加え、whdを更新します。
+    | WavToolはUTAU標準のwavtoolをエミュレートします。
+    | wavを入力し、waveヘッダ(.wav.whd)とwaveデータ(.wav.dat)を出力します。
+    | すでにwhdとdatがある場合、datの末尾にデータを加え、whdを更新します。
 
     Attributes
     ----------
@@ -27,13 +27,13 @@ class WavTool:
         datに追加する長さ(ms)
     envelope : list
         エンベロープのパターンは以下のいずれかです。
-            p1 p2
-            p1 p2 p3 v1 v2 v3 v4
-            p1 p2 p3 v1 v2 v3 v4 ove
-            p1 p2 p3 v1 v2 v3 v4 ove p4
-            p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
-        p1,p2,p3,p4,p5,ove : float
-        v1,v2,v3,v4,v5 : int
+            >>> p1 p2
+            >>> p1 p2 p3 v1 v2 v3 v4
+            >>> p1 p2 p3 v1 v2 v3 v4 ove
+            >>> p1 p2 p3 v1 v2 v3 v4 ove p4
+            >>> p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
+        | p1,p2,p3,p4,p5,ove : float
+        | v1,v2,v3,v4,v5 : int
     header : whd.Whd
         .whdファイルを扱います。
     '''

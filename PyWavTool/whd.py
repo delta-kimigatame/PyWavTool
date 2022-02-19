@@ -3,8 +3,8 @@ import os.path
 
 class Whd:
     '''
-    whdはwaveファイルのヘッダのみのファイルです。
-    wavtoolで生成したwhdとdatを結合するとwaveファイルになります。
+    | whdはwaveファイルのヘッダのみのファイルです。
+    | wavtoolで生成したwhdとdatを結合するとwaveファイルになります。
 
     Attributes
     ----------
@@ -87,6 +87,7 @@ class Whd:
     def write(self, output: str):
         '''
         whdファイルをoutput.whdというファイル名保存する。
+        
         Parameters
         ----------
         output : whdファイルのパス。

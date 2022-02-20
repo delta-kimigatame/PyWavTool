@@ -58,6 +58,8 @@
   <ItemGroup>
     <Content Include="testdata\220.wav" />
     <Content Include="testdata\440.wav" />
+    <Content Include="testdata\440.wav.dat" />
+    <Content Include="testdata\440.wav.whd" />
     <Content Include="testdata\test.txt">
       <SubType>Code</SubType>
     </Content>

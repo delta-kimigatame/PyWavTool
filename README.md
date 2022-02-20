@@ -19,6 +19,8 @@
 ### ‹Zpd—l
 API‚É‚Â‚¢‚Ä‚Í(https://delta-kimigatame.github.io/PyWavTool/)
 
+***
+
 ### ƒŠƒ“ƒN
 * twitter(https://twitter.com/delta_kuro)
 * github(https://github.com/delta-kimigatame/MakeOtoTemp)

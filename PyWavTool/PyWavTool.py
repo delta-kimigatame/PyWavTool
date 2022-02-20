@@ -91,12 +91,10 @@ class WavTool:
 
         if not self._error:
             addframes :int = int((length-ove) * self._header.framerate / 1000)
-            self._ApplyRange(stp, length)
-            p, v = self._GetEnvelopes(envelope, length)
-            self._ApplyEnvelope(p, v)
+            self._applyRange(stp, length)
+            p, v = self._getEnvelopes(envelope, length)
+            self._applyEnvelope(p, v)
         #**todo**
-        #dataにエンベロープを適用する。
-        #エンベロープポイントがframeとmsが一致しないとき、単純にエンベロープの数字との大小で適用を判断する
         #nframe - addのfrmae数文は、既存のdatの値に足す
         #のこりのframe数はdatの末尾に追加
         #datがない場合oveは無視する。
@@ -148,7 +146,7 @@ class WavTool:
             data.append(int.from_bytes(basedata[i*samplewidth:(i+1)*samplewidth], 'little', signed=True))
         self._data = list(map(lambda i:i / (2 ** (samplewidth * 8) /2), data)) #正規化
 
-    def _ApplyRange(self, stp:float, length :float):
+    def _applyRange(self, stp:float, length :float):
         '''
         | stpを適用し、self._range_dataを返します。
         | 事前にself._dataに最大1に正規化したwavデータが格納されていることが条件です。
@@ -164,7 +162,7 @@ class WavTool:
         length_frames = int(length * self._header.framerate / 1000)
         self._range_data = self._data[stp_frames:stp_frames + length_frames]
 
-    def _ApplyEnvelope(self, p :list, v :list):
+    def _applyEnvelope(self, p :list, v :list):
         '''
         | エンベロープ・stpを適用し、self._apply_dataを返します。
         | 事前にself._range_dataに最大1に正規化したwavデータが格納されていることが条件です。
@@ -198,7 +196,7 @@ class WavTool:
                 delta = (v[pos+1] - v[pos]) / (p[pos+1] - p[pos])
             self._apply_data.append((v[pos] + delta * (i - p[pos])) / 100 * self._range_data[i])
 
-    def _GetEnvelopes(self, envelope: list, length: float) -> Tuple[list, list]:
+    def _getEnvelopes(self, envelope: list, length: float) -> Tuple[list, list]:
         '''
         | エンベロープをノート頭からのms順に並べ、pとvのリストを返します。
         | エンベロープがパターンにマッチすることを事前に確認するのが条件です。

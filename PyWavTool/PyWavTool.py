@@ -3,6 +3,7 @@ import os
 import os.path
 import wave
 import argparse
+import math
 from typing import Tuple
 
 sys.path.append(os.path.dirname(__file__)) #embeddable pythonにimpot用のパスを追加
@@ -91,8 +92,10 @@ class WavTool:
             self._applyRange(stp, length)
             p, v = self._getEnvelopes(length)
             self._applyEnvelope(p, v)
-            nframes: int = self._dat.addframe(self._apply_data, ove, self._header.samplewidth, self._header.framerate)
-            self._header.addframes(nframes)
+        else:
+            self._apply_data = [0] * math.ceil(length * self._header.framerate / 1000)
+        nframes: int = self._dat.addframe(self._apply_data, ove, self._header.samplewidth, self._header.framerate)
+        self._header.addframes(nframes)
 
 
     def inputCheck(self, input:str):

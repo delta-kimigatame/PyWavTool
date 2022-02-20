@@ -28,7 +28,13 @@
     <Compile Include="dat.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="length_string.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PyWavTool.py" />
+    <Compile Include="release.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\test_dat.py">
       <SubType>Code</SubType>
     </Compile>

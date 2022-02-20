@@ -46,6 +46,7 @@
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#W"><strong>W</strong></a>
@@ -71,11 +72,13 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dat.html#dat.dat.addframe">addframe() (dat.dat のメソッド)</a>
+      <li><a href="dat.html#dat.Dat.addframe">addframe() (dat.Dat のメソッド)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="whd.html#whd.Whd.addframes">addframes() (whd.Whd のメソッド)</a>
+</li>
+      <li><a href="PyWavTool.html#PyWavTool.WavTool.applyData">applyData() (PyWavTool.WavTool のメソッド)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -90,14 +93,16 @@
         <li><a href="dat.html#module-dat">モジュール</a>
 </li>
       </ul></li>
+      <li><a href="dat.html#dat.Dat">Dat (dat のクラス)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dat.html#dat.dat">dat (dat のクラス)</a>
+      <li><a href="PyWavTool.html#PyWavTool.WavTool.dat">dat (PyWavTool.WavTool の属性)</a>
 </li>
-      <li><a href="dat.html#id0">data (dat.dat のプロパティ)</a>
+      <li><a href="dat.html#id0">data (dat.Dat のプロパティ)</a>
 
       <ul>
-        <li><a href="dat.html#dat.dat.data">(dat.dat の属性)</a>
+        <li><a href="dat.html#dat.Dat.data">(dat.Dat の属性)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -137,6 +142,10 @@
       <li><a href="PyWavTool.html#PyWavTool.WavTool.input">input (PyWavTool.WavTool の属性)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="PyWavTool.html#PyWavTool.WavTool.inputCheck">inputCheck() (PyWavTool.WavTool のメソッド)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
@@ -144,6 +153,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="PyWavTool.html#PyWavTool.WavTool.length">length (PyWavTool.WavTool の属性)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    length_string
+
+      <ul>
+        <li><a href="length_string.html#module-length_string">モジュール</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -180,20 +198,41 @@
   </ul></td>
 </tr></table>
 
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    release
+
+      <ul>
+        <li><a href="release.html#module-release">モジュール</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="whd.html#whd.Whd.samplewidth">samplewidth (whd.Whd のプロパティ)</a>
 </li>
-      <li><a href="tests.html#tests.test_whd.TestOutputWhdRead.setUp">setUp() (tests.test_whd.TestOutputWhdRead のメソッド)</a>
+      <li><a href="PyWavTool.html#PyWavTool.WavTool.setEnvelope">setEnvelope() (PyWavTool.WavTool のメソッド)</a>
+</li>
+      <li><a href="tests.html#tests.test_dat.TestDat.setUp">setUp() (tests.test_dat.TestDat のメソッド)</a>
 
       <ul>
+        <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.setUp">(tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
+</li>
+        <li><a href="tests.html#tests.test_whd.TestOutputWhdRead.setUp">(tests.test_whd.TestOutputWhdRead のメソッド)</a>
+</li>
         <li><a href="tests.html#tests.test_whd.TestWhd.setUp">(tests.test_whd.TestWhd のメソッド)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="PyWavTool.html#PyWavTool.WavTool.stp">stp (PyWavTool.WavTool の属性)</a>
+</li>
+      <li><a href="length_string.html#length_string.str2float">str2float() (length_string モジュール)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -203,59 +242,82 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tests.html#tests.test_whd.TestWhd.test_Add">test_Add() (tests.test_whd.TestWhd のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_cut">test_apply_cut() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_dat.TestDat.test_add_frame">test_add_frame() (tests.test_dat.TestDat のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_envelope4_2">test_apply_envelope4_2() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_dat.TestDat.test_add_frame_overlap">test_add_frame_overlap() (tests.test_dat.TestDat のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_envelope4_samepoint">test_apply_envelope4_samepoint() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_cut">test_apply_cut() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_envelope_2">test_apply_envelope_2() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_envelope4_2">test_apply_envelope4_2() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_envelope_default">test_apply_envelope_default() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_envelope4_samepoint">test_apply_envelope4_samepoint() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_envelope_no_change">test_apply_envelope_no_change() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_envelope_2">test_apply_envelope_2() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_apply_stp">test_apply_stp() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_envelope_default">test_apply_envelope_default() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_convert_data">test_convert_data() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_envelope_no_change">test_apply_envelope_no_change() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_envelope_matching">test_envelope_matching() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_apply_stp">test_apply_stp() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_envelope_not_matching">test_envelope_not_matching() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_convert_data">test_convert_data() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_get_envelope_11">test_get_envelope_11() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolInput.test_envelope_matching">test_envelope_matching() (tests.test_pywavtool.TestPyWavToolInput のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_get_envelope_9">test_get_envelope_9() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolInput.test_envelope_not_matching">test_envelope_not_matching() (tests.test_pywavtool.TestPyWavToolInput のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_get_envelope_default">test_get_envelope_default() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_get_envelope_11">test_get_envelope_11() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
+</li>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_get_envelope_9">test_get_envelope_9() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
+</li>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain.test_get_envelope_default">test_get_envelope_default() (tests.test_pywavtool.TestPyWavToolMain のメソッド)</a>
+</li>
+      <li><a href="tests.html#tests.test_dat.TestDat.test_init">test_init() (tests.test_dat.TestDat のメソッド)</a>
 </li>
       <li><a href="tests.html#tests.test_whd.TestWhd.test_InitWhd">test_InitWhd() (tests.test_whd.TestWhd のメソッド)</a>
 </li>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolInput.test_input_wav_is_not_wav">test_input_wav_is_not_wav() (tests.test_pywavtool.TestPyWavToolInput のメソッド)</a>
+</li>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolInput.test_input_wav_not_exist">test_input_wav_not_exist() (tests.test_pywavtool.TestPyWavToolInput のメソッド)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_input_wav_is_not_wav">test_input_wav_is_not_wav() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolInput.test_make_outputdir">test_make_outputdir() (tests.test_pywavtool.TestPyWavToolInput のメソッド)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_input_wav_not_exist">test_input_wav_not_exist() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
-</li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool.test_make_outputdir">test_make_outputdir() (tests.test_pywavtool.TestPyWavTool のメソッド)</a>
+      <li><a href="tests.html#tests.test_dat.TestDat.test_no_file">test_no_file() (tests.test_dat.TestDat のメソッド)</a>
 </li>
       <li><a href="tests.html#tests.test_whd.TestWhd.test_Read">test_Read() (tests.test_whd.TestWhd のメソッド)</a>
 </li>
       <li><a href="tests.html#tests.test_whd.TestOutputWhdRead.test_ReadOutputData">test_ReadOutputData() (tests.test_whd.TestOutputWhdRead のメソッド)</a>
 </li>
+      <li><a href="tests.html#tests.test_dat.TestDat.test_write">test_write() (tests.test_dat.TestDat のメソッド)</a>
+</li>
+      <li><a href="tests.html#tests.test_dat.TestDat.test_write_checkValue">test_write_checkValue() (tests.test_dat.TestDat のメソッド)</a>
+</li>
       <li><a href="tests.html#tests.test_whd.TestWhd.test_WriteWhd">test_WriteWhd() (tests.test_whd.TestWhd のメソッド)</a>
 </li>
       <li><a href="tests.html#tests.test_whd.TestWhd.test_WriteWhd_NoDir">test_WriteWhd_NoDir() (tests.test_whd.TestWhd のメソッド)</a>
 </li>
+      <li><a href="tests.html#tests.test_dat.TestDat">TestDat (tests.test_dat のクラス)</a>
+</li>
       <li><a href="tests.html#tests.test_whd.TestOutputWhdRead">TestOutputWhdRead (tests.test_whd のクラス)</a>
 </li>
-      <li><a href="tests.html#tests.test_pywavtool.TestPyWavTool">TestPyWavTool (tests.test_pywavtool のクラス)</a>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolInput">TestPyWavToolInput (tests.test_pywavtool のクラス)</a>
+</li>
+      <li><a href="tests.html#tests.test_pywavtool.TestPyWavToolMain">TestPyWavToolMain (tests.test_pywavtool のクラス)</a>
 </li>
       <li>
     tests
 
       <ul>
         <li><a href="tests.html#module-tests">モジュール</a>
+</li>
+      </ul></li>
+      <li>
+    tests.test_dat
+
+      <ul>
+        <li><a href="tests.html#module-tests.test_dat">モジュール</a>
 </li>
       </ul></li>
       <li>
@@ -293,9 +355,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="whd.html#whd.Whd">Whd (whd のクラス)</a>
 </li>
-      <li><a href="dat.html#dat.dat.write">write() (dat.dat のメソッド)</a>
+      <li><a href="dat.html#dat.Dat.write">write() (dat.Dat のメソッド)</a>
 
       <ul>
+        <li><a href="PyWavTool.html#PyWavTool.WavTool.write">(PyWavTool.WavTool のメソッド)</a>
+</li>
         <li><a href="whd.html#whd.Whd.write">(whd.Whd のメソッド)</a>
 </li>
       </ul></li>
@@ -311,9 +375,15 @@
       <ul>
         <li><a href="dat.html#module-dat">dat</a>
 </li>
+        <li><a href="length_string.html#module-length_string">length_string</a>
+</li>
         <li><a href="PyWavTool.html#module-PyWavTool">PyWavTool</a>
 </li>
+        <li><a href="release.html#module-release">release</a>
+</li>
         <li><a href="tests.html#module-tests">tests</a>
+</li>
+        <li><a href="tests.html#module-tests.test_dat">tests.test_dat</a>
 </li>
         <li><a href="tests.html#module-tests.test_pywavtool">tests.test_pywavtool</a>
 </li>
@@ -348,6 +418,7 @@
 <li class="toctree-l1"><a class="reference internal" href="PyWavTool.html">PyWavTool module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whd.html">whd module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dat.html">dat module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="length_string.html">length_string module</a></li>
 </ul>
 
 <div class="relations">

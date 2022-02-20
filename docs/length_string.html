@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>PyWavTool &#8212; PyWavTool 1.0.0 ドキュメント</title>
+    <title>length_string module &#8212; PyWavTool 1.0.0 ドキュメント</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -16,6 +16,7 @@
     <script src="_static/translations.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="dat module" href="dat.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -32,25 +33,38 @@
 
           <div class="body" role="main">
             
-  <section id="pywavtool">
-<h1>PyWavTool<a class="headerlink" href="#pywavtool" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyWavTool.html">PyWavTool module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dat.html">dat module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="length_string.html">length_string module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">release module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_dat">tests.test_dat module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_pywavtool">tests.test_pywavtool module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests.test_whd">tests.test_whd module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tests.html#module-tests">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="whd.html">whd module</a></li>
-</ul>
+  <section id="module-length_string">
+<span id="length-string-module"></span><h1>length_string module<a class="headerlink" href="#module-length_string" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="length_string.str2float">
+<span class="sig-prename descclassname"><span class="pre">length_string.</span></span><span class="sig-name descname"><span class="pre">str2float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#length_string.str2float" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>UTAUのLength文字列をfloatに変換します。</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>length</strong> (<em>str</em>) -- length文字列</p>
+</dd>
+<dt class="field-even">戻り値</dt>
+<dd class="field-even"><p><strong>length</strong></p>
+</dd>
+<dt class="field-odd">戻り値の型</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">メモ</p>
+<div class="line-block">
+<div class="line">lengthは以下のいずれかの形で与えられます。</div>
+<div class="line"><a class="reference external" href="mailto:tick&#37;&#52;&#48;tempo">tick<span>&#64;</span>tempo</a></div>
+<div class="line"><a class="reference external" href="mailto:tick&#37;&#52;&#48;tempo+delta">tick<span>&#64;</span>tempo+delta</a></div>
+<div class="line"><a class="reference external" href="mailto:tick&#37;&#52;&#48;tempo-delta">tick<span>&#64;</span>tempo-delta</a></div>
 </div>
+<div class="line-block">
+<div class="line">戻り値の計算は以下の通りです。</div>
+<div class="line">1拍あたりのms = 60*1000 / tempo</div>
+<div class="line">1tickあたりのms = 1拍あたりのms / 480</div>
+<div class="line">length = 1tickあたりのms * tick +(-) delta</div>
+</div>
+</dd></dl>
+
 </section>
 
 
@@ -71,17 +85,18 @@
 
 <h3>ナビゲーション</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="PyWavTool.html">PyWavTool module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whd.html">whd module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dat.html">dat module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="length_string.html">length_string module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">length_string module</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="dat.html" title="前の章へ">dat module</a></li>
   </ul></li>
 </ul>
 </div>
@@ -115,7 +130,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="_sources/modules.rst.txt"
+      <a href="_sources/length_string.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

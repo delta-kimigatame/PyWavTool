@@ -38,7 +38,7 @@
 <span id="pywavtool-module"></span><h1>PyWavTool module<a class="headerlink" href="#module-PyWavTool" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyWavTool.WavTool">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyWavTool.</span></span><span class="sig-name descname"><span class="pre">WavTool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool" title="この定義へのパーマリンク">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyWavTool.</span></span><span class="sig-name descname"><span class="pre">WavTool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <div class="line-block">
 <div class="line">WavToolはUTAU標準のwavtoolをエミュレートします。</div>
@@ -124,9 +124,78 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.dat">
+<span class="sig-name descname"><span class="pre">dat</span></span><a class="headerlink" href="#PyWavTool.WavTool.dat" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>.datファイルを扱います。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="dat.html#dat.Dat" title="dat.Dat">dat.Dat</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.applyData">
+<span class="sig-name descname"><span class="pre">applyData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool.applyData" title="この定義へのパーマリンク">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stp</strong> (<em>float</em>) -- 入力wavの先頭のオフセットをmsで指定する。</p></li>
+<li><p><strong>length</strong> (<em>float</em>) -- datに追加する長さ(ms)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyWavTool.WavTool.error">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyWavTool.WavTool.error" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.inputCheck">
+<span class="sig-name descname"><span class="pre">inputCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool.inputCheck" title="この定義へのパーマリンク">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">入力値が正しいかチェックします。</div>
+<div class="line">正常値の場合、self._dataにwavの中身を最大1に正規化したfloatに変換して代入します。</div>
+<div class="line">異常値の場合、self._errorをTrueにします。</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>str</em>) -- 入力するwavのパス</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.setEnvelope">
+<span class="sig-name descname"><span class="pre">setEnvelope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envelope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool.setEnvelope" title="この定義へのパーマリンク">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">入力されたエンベロープが正しいかチェックします。</div>
+<div class="line">正常値であれば、self._envelopeを更新します。</div>
+<div class="line">異常値であれば、self._ErrorをTrueにします。</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>envelope</strong> (<em>list</em>) -- <dl class="simple">
+<dt>エンベロープのパターンは以下のいずれかです。</dt><dd><p>p1 p2
+p1 p2 p3 v1 v2 v3 v4
+p1 p2 p3 v1 v2 v3 v4 ove
+p1 p2 p3 v1 v2 v3 v4 ove p4
+p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5</p>
+</dd>
+</dl>
+<p>p1,p2,p3,p4,p5,ove : float
+v1,v2,v3,v4,v5 : int</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyWavTool.WavTool.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyWavTool.WavTool.write" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

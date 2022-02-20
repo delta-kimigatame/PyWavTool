@@ -13,6 +13,7 @@ Welcome to PyWavTool's documentation!
    PyWavTool
    whd
    dat
+   length_string
 
 
 Indices and tables

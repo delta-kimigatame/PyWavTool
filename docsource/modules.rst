@@ -6,5 +6,7 @@ PyWavTool
 
    PyWavTool
    dat
+   length_string
+   release
    tests
    whd

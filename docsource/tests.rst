@@ -4,6 +4,14 @@ tests package
 Submodules
 ----------
 
+tests.test\_dat module
+----------------------
+
+.. automodule:: tests.test_dat
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tests.test\_pywavtool module
 ----------------------------
 

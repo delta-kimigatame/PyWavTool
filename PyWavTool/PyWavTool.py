@@ -1,12 +1,14 @@
-
+import sys
 import os
 import os.path
 import wave
 import argparse
 from typing import Tuple
 
+sys.path.append(os.path.dirname(__file__)) #embeddable pythonにimpot用のパスを追加
 import whd
 import dat
+import length_string
 
 ARROW_ENVELOPE_VALUES = [2, 7, 8, 9, 11]
 
@@ -64,7 +66,8 @@ class WavTool:
             出力するwavのパス
         '''
         self._error = False
-        os.makedirs(os.path.split(output)[0], exist_ok=True)
+        if os.path.split(output)[0] != "":
+            os.makedirs(os.path.split(output)[0], exist_ok=True)
         self._header = whd.Whd(output + ".whd")
         self._dat = dat.Dat(output + ".dat", self._header.samplewidth)
         self._output = output
@@ -244,8 +247,8 @@ class WavTool:
         return p,v
 
     def write(self):
-        self._header.write(self.output + ".whd")
-        self._dat.write(self.output + ".dat")
+        self._header.write(self._output)
+        self._dat.write(self._output + ".dat", self._header.samplewidth)
         
 
 
@@ -255,7 +258,7 @@ if __name__ == '__main__':
     parser.add_argument('output', help='output wav path', type=str)
     parser.add_argument('input', help='input wav path', type=str)
     parser.add_argument('stp', help='start offset of wav', type=float)
-    parser.add_argument('length', help='append length(ms)', type=float)
+    parser.add_argument('length', help='append length(ms)')
     parser.add_argument('envelope', nargs='*', type=float,
                         help='envelope patern ' +
                         '\'p1 p2\' or \'p1 p2 p3 v1 v2 v3 v4 ove\'' +
@@ -265,8 +268,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if (len(args.envelope) not in ARROW_ENVELOPE_VALUES):
         print("value error:envelope patern is not matching.")
-    wavtool = WavTool(args.output, args.input)
+    length: float
+    wavtool = WavTool(args.output)
     wavtool.inputCheck(args.input)
     wavtool.setEnvelope(args.envelope)
-    wavtool.applyData(args.stp, args.length)
+    if type(args.length) == float:
+        length = args.length
+    else:
+        length = length_string.str2float(args.length)
+    wavtool.applyData(args.stp, length)
     wavtool.write()

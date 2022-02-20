@@ -36,13 +36,13 @@
   <section id="module-dat">
 <span id="dat-module"></span><h1>dat module<a class="headerlink" href="#module-dat" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="dat.dat">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dat.</span></span><span class="sig-name descname"><span class="pre">dat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.dat" title="この定義へのパーマリンク">¶</a></dt>
+<dt class="sig sig-object py" id="dat.Dat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dat.</span></span><span class="sig-name descname"><span class="pre">Dat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.Dat" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>wavファイルのヘッダ以外のデータ部分を扱います。</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="dat.dat.data">
-<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#dat.dat.data" title="この定義へのパーマリンク">¶</a></dt>
+<dt class="sig sig-object py" id="dat.Dat.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#dat.Dat.data" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>wavファイルのデータ列</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -52,8 +52,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="dat.dat.addframe">
-<span class="sig-name descname"><span class="pre">addframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.dat.addframe" title="この定義へのパーマリンク">¶</a></dt>
+<dt class="sig sig-object py" id="dat.Dat.addframe">
+<span class="sig-name descname"><span class="pre">addframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dat.Dat.addframe" title="この定義へのパーマリンク">¶</a></dt>
 <dd><div class="line-block">
 <div class="line">self._datの末尾にdataを追加します。</div>
 <div class="line">ove(ms)分のデータは、self._dataとdataを加算します。</div>
@@ -67,6 +67,12 @@
 <li><p><strong>framerate</strong> (<em>int</em>) -- wavのサンプル周波数</p></li>
 </ul>
 </dd>
+<dt class="field-even">戻り値</dt>
+<dd class="field-even"><p><strong>nframes</strong> -- 追加したフレーム数</p>
+</dd>
+<dt class="field-odd">戻り値の型</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -76,8 +82,8 @@
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="dat.dat.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.dat.write" title="この定義へのパーマリンク">¶</a></dt>
+<dt class="sig sig-object py" id="dat.Dat.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.Dat.write" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>datファイルの保存</p>
 <dl class="field-list simple">
 <dt class="field-odd">パラメータ</dt>

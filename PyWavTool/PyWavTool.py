@@ -38,6 +38,8 @@ class WavTool:
         | v1,v2,v3,v4,v5 : int
     header : whd.Whd
         .whdファイルを扱います。
+    dat : dat.Dat
+        .datファイルを扱います。
     '''
     _error: bool = False
     _output: str
@@ -48,6 +50,7 @@ class WavTool:
     _range_data :list
     _apply_data :list
     _header: whd.Whd
+    _dat: dat.Dat
 
     @property
     def error(self) -> bool:
@@ -56,8 +59,6 @@ class WavTool:
     def __init__(self,
                  output: str,
                  input: str,
-                 stp: float,
-                 length: float,
                  envelope: list):
         '''
         Parameters
@@ -66,10 +67,6 @@ class WavTool:
             出力するwavのパス
         input : str
             入力するwavのパス
-        stp : float
-            入力wavの先頭のオフセットをmsで指定する。
-        length : float
-            datに追加する長さ(ms)
         envelope : list
             エンベロープのパターンは以下のいずれかです。
                 p1 p2
@@ -80,27 +77,38 @@ class WavTool:
             p1,p2,p3,p4,p5,ove : float
             v1,v2,v3,v4,v5 : int
         '''
-        ove :float
         self._error = False
-        self._inputCheck(input, envelope)
+        self._envelope = envelope
+        self._inputCheck(input)
         os.makedirs(os.path.split(output)[0], exist_ok=True)
         self._header = whd.Whd(output + ".whd")
         self._dat = dat.Dat(output + ".dat", self._header.samplewidth)
-        if len(envelope) >= 8:
-            ove = envelope[7]
+        self._output = output
+            
+    def applyData(self,stp: float,length: float):
+        '''
+        Parameters
+        ----------
+        stp : float
+            入力wavの先頭のオフセットをmsで指定する。
+        length : float
+            datに追加する長さ(ms)
+        '''
+        ove :float
+        if len(self._envelope) >= 8:
+            ove = self._envelope[7]
         else:
             ove = 0
 
         if not self._error:
             self._applyRange(stp, length)
-            p, v = self._getEnvelopes(envelope, length)
+            p, v = self._getEnvelopes(length)
             self._applyEnvelope(p, v)
             nframes: int = self._dat.addframe(self._apply_data, ove, self._header.samplewidth, self._header.framerate)
             self._header.addframes(nframes)
-            
 
 
-    def _inputCheck(self, input:str ,envelope: list):
+    def _inputCheck(self, input:str):
         '''
         | 入力値が正しいかチェックします。
         | 正常値の場合、self._dataにwavの中身を最大1に正規化したfloatに変換して代入します。
@@ -110,21 +118,12 @@ class WavTool:
         ----------
         input : str
             入力するwavのパス
-        envelope : list
-            エンベロープのパターンは以下のいずれかです。
-                p1 p2
-                p1 p2 p3 v1 v2 v3 v4
-                p1 p2 p3 v1 v2 v3 v4 ove
-                p1 p2 p3 v1 v2 v3 v4 ove p4
-                p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
-            p1,p2,p3,p4,p5,ove : float
-            v1,v2,v3,v4,v5 : int
         '''
 
         basedata :list
         data :list =[]
         self._data = []
-        if (len(envelope) not in ARROW_ENVELOPE_VALUES):
+        if (len(self._envelope) not in ARROW_ENVELOPE_VALUES):
             # エンベロープがパターンにマッチしているか確認
             print("value error:envelope patern is not matching.")
             self._error = True
@@ -195,21 +194,12 @@ class WavTool:
                 delta = (v[pos+1] - v[pos]) / (p[pos+1] - p[pos])
             self._apply_data.append((v[pos] + delta * (i - p[pos])) / 100 * self._range_data[i])
 
-    def _getEnvelopes(self, envelope: list, length: float) -> Tuple[list, list]:
+    def _getEnvelopes(self, length: float) -> Tuple[list, list]:
         '''
         | エンベロープをノート頭からのms順に並べ、pとvのリストを返します。
         | エンベロープがパターンにマッチすることを事前に確認するのが条件です。
         Parameters
         ----------
-        envelope : list
-            エンベロープのパターンは以下のいずれかです。
-                p1 p2
-                p1 p2 p3 v1 v2 v3 v4
-                p1 p2 p3 v1 v2 v3 v4 ove
-                p1 p2 p3 v1 v2 v3 v4 ove p4
-                p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
-            p1,p2,p3,p4,p5,ove : float
-            v1,v2,v3,v4,v5 : int
         length : float
             datに追加する長さ(ms)
 
@@ -221,26 +211,26 @@ class WavTool:
             ノート頭からms順に並べたポルタメントの音量値。エンベロープが2点の場合空配列
         '''
         
-        if len(envelope) == 2: #休符等の例外
+        if len(self._envelope) == 2: #休符等の例外
             return [], []
 
         p :list = [0] #Pstart
         v :list = [0] #Vstart
         frame_per_ms: float = self._header.framerate / 1000
-        p.append(int(float(envelope[0]) * frame_per_ms)) #p1
-        p.append(int((float(envelope[0]) + float(envelope[1])) * frame_per_ms)) #p2
-        v.append(int(envelope[3])) #v1
-        v.append(int(envelope[4])) #v2
-        if len(envelope) >= 11:
-            p.append(int((float(envelope[0]) + float(envelope[1]) + float(envelope[9])) * frame_per_ms)) #p5
-            v.append(int(envelope[10])) #v5
-        v.append(int(envelope[5])) #v3
-        v.append(int(envelope[6])) #v4
-        if len(envelope) >= 9:
-            p.append(int((length - float(envelope[8]) - float(envelope[2])) * frame_per_ms))  #p3はp4からのms
-            p.append(int((length - float(envelope[8])) * frame_per_ms)) #p4は後ろからのms
+        p.append(int(float(self._envelope[0]) * frame_per_ms)) #p1
+        p.append(int((float(self._envelope[0]) + float(self._envelope[1])) * frame_per_ms)) #p2
+        v.append(int(self._envelope[3])) #v1
+        v.append(int(self._envelope[4])) #v2
+        if len(self._envelope) >= 11:
+            p.append(int((float(self._envelope[0]) + float(self._envelope[1]) + float(self._envelope[9])) * frame_per_ms)) #p5
+            v.append(int(self._envelope[10])) #v5
+        v.append(int(self._envelope[5])) #v3
+        v.append(int(self._envelope[6])) #v4
+        if len(self._envelope) >= 9:
+            p.append(int((length - float(self._envelope[8]) - float(self._envelope[2])) * frame_per_ms))  #p3はp4からのms
+            p.append(int((length - float(self._envelope[8])) * frame_per_ms)) #p4は後ろからのms
         else:
-            p.append(int((length - float(envelope[2])) * frame_per_ms)) #p3はp4からのms
+            p.append(int((length - float(self._envelope[2])) * frame_per_ms)) #p3はp4からのms
 
         p.append(length * frame_per_ms) # Pend
         v.append(0) #Vend
@@ -267,4 +257,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if (len(args.envelope) not in ARROW_ENVELOPE_VALUES):
         print("value error:envelope patern is not matching.")
-    WavTool(args.output, args.input, args.stp, args.length, args.envelope)
+    wavtool = WavTool(args.output, args.input, args.envelope)
+    wavtool.applyData(args.stp, args.length)

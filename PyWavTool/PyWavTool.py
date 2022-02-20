@@ -56,30 +56,14 @@ class WavTool:
     def error(self) -> bool:
         return self._error
 
-    def __init__(self,
-                 output: str,
-                 input: str,
-                 envelope: list):
+    def __init__(self, output: str):
         '''
         Parameters
         ----------
         ourput : str
             出力するwavのパス
-        input : str
-            入力するwavのパス
-        envelope : list
-            エンベロープのパターンは以下のいずれかです。
-                p1 p2
-                p1 p2 p3 v1 v2 v3 v4
-                p1 p2 p3 v1 v2 v3 v4 ove
-                p1 p2 p3 v1 v2 v3 v4 ove p4
-                p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
-            p1,p2,p3,p4,p5,ove : float
-            v1,v2,v3,v4,v5 : int
         '''
         self._error = False
-        self._envelope = envelope
-        self._inputCheck(input)
         os.makedirs(os.path.split(output)[0], exist_ok=True)
         self._header = whd.Whd(output + ".whd")
         self._dat = dat.Dat(output + ".dat", self._header.samplewidth)
@@ -108,7 +92,7 @@ class WavTool:
             self._header.addframes(nframes)
 
 
-    def _inputCheck(self, input:str):
+    def inputCheck(self, input:str):
         '''
         | 入力値が正しいかチェックします。
         | 正常値の場合、self._dataにwavの中身を最大1に正規化したfloatに変換して代入します。
@@ -119,15 +103,11 @@ class WavTool:
         input : str
             入力するwavのパス
         '''
+        self._error = False
 
         basedata :list
         data :list =[]
         self._data = []
-        if (len(self._envelope) not in ARROW_ENVELOPE_VALUES):
-            # エンベロープがパターンにマッチしているか確認
-            print("value error:envelope patern is not matching.")
-            self._error = True
-            return
         if (not os.path.isfile(input)):
             print("input file is not found:{}".format(input))
             self._error = True
@@ -143,6 +123,32 @@ class WavTool:
         for i in range(int(len(basedata)/samplewidth)):#byteからintに変換。
             data.append(int.from_bytes(basedata[i*samplewidth:(i+1)*samplewidth], 'little', signed=True))
         self._data = list(map(lambda i:i / (2 ** (samplewidth * 8) /2), data)) #正規化
+
+    def setEnvelope(self, envelope: list):
+        '''
+        | 入力されたエンベロープが正しいかチェックします。
+        | 正常値であれば、self._envelopeを更新します。
+        | 異常値であれば、self._ErrorをTrueにします。
+
+        Parameters
+        ----------
+        envelope : list
+            エンベロープのパターンは以下のいずれかです。
+                p1 p2
+                p1 p2 p3 v1 v2 v3 v4
+                p1 p2 p3 v1 v2 v3 v4 ove
+                p1 p2 p3 v1 v2 v3 v4 ove p4
+                p1 p2 p3 v1 v2 v3 v4 ove p4 p5 v5
+            p1,p2,p3,p4,p5,ove : float
+            v1,v2,v3,v4,v5 : int
+        '''
+        if (len(envelope) in ARROW_ENVELOPE_VALUES):
+            # エンベロープがパターンにマッチしているか確認
+            self._envelope = envelope
+        else:
+            print("value error:envelope patern is not matching.")
+            self._error = True
+
 
     def _applyRange(self, stp:float, length :float):
         '''
@@ -257,5 +263,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if (len(args.envelope) not in ARROW_ENVELOPE_VALUES):
         print("value error:envelope patern is not matching.")
-    wavtool = WavTool(args.output, args.input, args.envelope)
+    wavtool = WavTool(args.output, args.input)
+    wavtool.inputCheck(args.input)
+    wavtool.setEnvelope(args.envelope)
     wavtool.applyData(args.stp, args.length)

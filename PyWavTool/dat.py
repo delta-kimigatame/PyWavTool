@@ -48,7 +48,6 @@ class Dat:
         '''
         with open(output, "wb") as fw:
             for data in self._data:
-                print(data)
                 fw.write(data.to_bytes(int(samplewidth/8), 'little', signed=True))
 
     def addframe(self, data: list, ove: float, samplewidth: int, framerate: int) -> int:

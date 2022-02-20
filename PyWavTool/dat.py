@@ -99,3 +99,52 @@ class Dat:
             self._data.append(int(x * ((2 ** (samplewidth)) /2)))
 
         return len(data[ove_frames:])
+
+    def addframeAndWrite(self, data: list, ove: float, samplewidth: int, framerate: int, output: str) -> int:
+        '''
+        | self._datの末尾にdataを追加します。
+        | ove(ms)分のデータは、self._dataとdataを加算します。
+
+        Parameters
+        ----------
+        data :list of float
+            書き込みするwavのデータ。1で正規化されている。
+        ove :float
+            既存のframeにかぶせる長さ(ms)
+        samplewidth :int
+            wavのビット深度
+        framerate :int
+            wavのサンプル周波数
+        output :str
+            datファイルのパス。存在する場合上書きされます。
+
+        Returns
+        -------
+        nframes :int
+            追加したフレーム数
+        '''
+        ove_frames :int = int(ove * framerate /1000)
+        sample_byte:int = int(samplewidth/8)
+        max_amp:int = int((2**samplewidth)/2)
+        data = list(map(lambda x: int(x * max_amp), data))
+        if not os.path.exists(output):
+            with open(output,"wb"):
+                pass
+        with open(output,"r+b") as fw:
+            fw.seek(-ove_frames*2, 2)
+            tmp=fw.read()
+            for i in range(int(len(tmp)/sample_byte)):
+                data[i] += int.from_bytes(tmp[i*sample_byte:(i+1)*sample_byte], 'little', signed=True)
+                
+            fw.seek(-ove_frames*2, 2)
+            writer=b""
+            for d in data:
+                if d >= max_amp:
+                    writer += (max_amp-1).to_bytes(sample_byte, 'little', signed=True)
+                elif d <= 1-2**samplewidth/2:
+                    writer += (2-max_amp).to_bytes(sample_byte, 'little', signed=True)
+                else:
+                    writer += d.to_bytes(sample_byte, 'little', signed=True)
+            fw.write(writer)
+                     
+        return len(data[ove_frames:])

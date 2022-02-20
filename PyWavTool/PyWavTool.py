@@ -94,7 +94,7 @@ class WavTool:
             self._applyEnvelope(p, v)
         else:
             self._apply_data = [0] * math.ceil(length * self._header.framerate / 1000)
-        nframes: int = self._dat.addframe(self._apply_data, ove, self._header.samplewidth, self._header.framerate)
+        nframes: int = self._dat.addframeAndWrite(self._apply_data, ove, self._header.samplewidth, self._header.framerate,self._output + ".dat")
         self._header.addframes(nframes)
 
 
@@ -251,7 +251,7 @@ class WavTool:
 
     def write(self):
         self._header.write(self._output)
-        self._dat.write(self._output + ".dat", self._header.samplewidth)
+        #self._dat.write(self._output + ".dat", self._header.samplewidth)
         
 
 

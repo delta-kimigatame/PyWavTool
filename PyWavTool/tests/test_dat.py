@@ -47,11 +47,15 @@ class TestDat(unittest.TestCase):
         
     def test_write_checkValue(self):
         _dat = dat.Dat(os.path.join("testdata","100.wav.dat"))
-        nframes = _dat.addframe([50/32768]*44100, 500, 16, 44100)
         self.assertFalse(os.path.isfile("writetest.wav.dat"))
-        _dat.write("writetest.wav.dat", 16)
+        shutil.copy(os.path.join("testdata","100.wav.dat"),"writetest.wav.dat")
+        _dat2 = dat.Dat("writetest.wav.dat")
+        _dat2.read(16)
+        self.assertEqual(len(_dat2._data), 44100)
+        nframes = _dat.addframeAndWrite([50/32768]*44100, 500, 16, 44100, "writetest.wav.dat")
         self.assertTrue(os.path.isfile("writetest.wav.dat"))
         _dat2 = dat.Dat("writetest.wav.dat")
         _dat2.read(16)
-        self.assertEqual(_dat2._data[22001:22101], [100]*50 + [150]*50)
+        self.assertEqual(len(_dat2._data), 44100 + 22050)
+        self.assertEqual(_dat2._data[22000:22100], [100]*50 + [150]*50)
         self.assertEqual(_dat2._data[44050:44150], [150]*50 + [50]*50)

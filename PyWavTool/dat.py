@@ -26,8 +26,8 @@ class Dat:
         samplewidth :int
             wavのビット深度
         '''
+        self._data = []
         if not os.path.exists(input):
-            self._data = []
             return
         with open(input ,"rb") as fr:
             tmp = fr.read()
@@ -47,7 +47,7 @@ class Dat:
         '''
         with open(output, "wb") as fw:
             for data in self._data:
-                fw.write(data.to_bytes(samplewidth, 'little'))
+                fw.write(data.to_bytes(samplewidth, 'little', signed=True))
 
     def addframe(self, data: list, ove: float, samplewidth: int, framerate: int) -> int:
         '''
@@ -77,8 +77,8 @@ class Dat:
         ove_data=data[:ove_frames]
 
         for i in range(len(ove_data)):
-            self._data[-i] += (ove_data[-i] * ((2 ** samplewidth) /2))
+            self._data[-i] += int((ove_data[-i] * ((2 ** (8*samplewidth)) /2)))
         for x in data[ove_frames:]:
-            self._data.append(x * ((2 ** samplewidth) /2))
+            self._data.append(int(x * ((2 ** (8*samplewidth)) /2)))
 
         return len(data[ove_frames:])

@@ -29,6 +29,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PyWavTool.py" />
+    <Compile Include="tests\test_dat.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\test_pywavtool.py">
       <SubType>Code</SubType>
     </Compile>

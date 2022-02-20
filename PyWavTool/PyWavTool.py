@@ -44,7 +44,7 @@ class WavTool:
     _stp: float
     _length: float
     _data: list
-    _stp_data :list
+    _range_data :list
     _apply_data :list
     _header: whd.Whd
 
@@ -91,8 +91,9 @@ class WavTool:
 
         if not self._error:
             addframes :int = int((length-ove) * self._header.framerate / 1000)
-            self._ApplyStp(stp)
+            self._ApplyRange(stp, length)
             p, v = self._GetEnvelopes(envelope, length)
+            self._ApplyEnvelope(p, v)
         #**todo**
         #dataにエンベロープを適用する。
         #エンベロープポイントがframeとmsが一致しないとき、単純にエンベロープの数字との大小で適用を判断する
@@ -147,23 +148,26 @@ class WavTool:
             data.append(int.from_bytes(basedata[i*samplewidth:(i+1)*samplewidth], 'little', signed=True))
         self._data = list(map(lambda i:i / (2 ** (samplewidth * 8) /2), data)) #正規化
 
-    def _ApplyStp(self, stp:float):
+    def _ApplyRange(self, stp:float, length :float):
         '''
-        | stpを適用し、self._stp_dataを返します。
+        | stpを適用し、self._range_dataを返します。
         | 事前にself._dataに最大1に正規化したwavデータが格納されていることが条件です。
 
         Parameters
         ----------
         stp : float
             入力wavの先頭のオフセットをmsで指定する。
+        length : float
+            datに追加する長さ(ms)
         '''
         stp_frames = int(stp * self._header.framerate / 1000)
-        self._stp_data = self._data[stp_frames:]
+        length_frames = int(length * self._header.framerate / 1000)
+        self._range_data = self._data[stp_frames:stp_frames + length_frames]
 
     def _ApplyEnvelope(self, p :list, v :list):
         '''
         | エンベロープ・stpを適用し、self._apply_dataを返します。
-        | 事前にself._stp_dataに最大1に正規化したwavデータが格納されていることが条件です。
+        | 事前にself._range_dataに最大1に正規化したwavデータが格納されていることが条件です。
 
         Parameters
         ----------
@@ -174,17 +178,25 @@ class WavTool:
         '''
 
         if len(p) == 0: #休符等の例外
-            self._apply_data = [0] * len(self._stp_data)
+            self._apply_data = [0] * len(self._range_data)
             return
 
         self._apply_data = []
         pos: int = 0
+        while p[pos] == p[pos+1]:
+            pos = pos + 1
+            if pos >= len(p):
+                break
         delta:float = (v[pos+1] - v[pos]) / (p[pos+1] - p[pos])
-        for i in range(len(self._stp_data)):
+        for i in range(len(self._range_data)):
             if i >= p[pos + 1]:
                 pos = pos +1
+                while p[pos] == p[pos+1]:
+                    pos = pos + 1
+                    if pos >= len(p):
+                        break
                 delta = (v[pos+1] - v[pos]) / (p[pos+1] - p[pos])
-            self._applv_data.append([pos] + delta * (i - p[pos]))
+            self._apply_data.append((v[pos] + delta * (i - p[pos])) / 100 * self._range_data[i])
 
     def _GetEnvelopes(self, envelope: list, length: float) -> Tuple[list, list]:
         '''
@@ -219,17 +231,20 @@ class WavTool:
         v :list = [0] #Vstart
         frame_per_ms: float = self._header.framerate / 1000
         p.append(int(float(envelope[0]) * frame_per_ms)) #p1
-        p.append(int(float(envelope[1]) * frame_per_ms)) #p2
-        p.append(int(float(envelope[2]) * frame_per_ms)) #p3
+        p.append(int((float(envelope[0]) + float(envelope[1])) * frame_per_ms)) #p2
         v.append(int(envelope[3])) #v1
         v.append(int(envelope[4])) #v2
-        v.append(int(envelope[5])) #v3
         if len(envelope) >= 11:
-            p.append(int((length - float(envelope[8]) - float(envelope[9])) * frame_per_ms)) #p5 はp4からのms
+            p.append(int((float(envelope[0]) + float(envelope[1]) + float(envelope[9])) * frame_per_ms)) #p5
             v.append(int(envelope[10])) #v5
+        v.append(int(envelope[5])) #v3
         v.append(int(envelope[6])) #v4
         if len(envelope) >= 9:
+            p.append(int((length - float(envelope[8]) - float(envelope[2])) * frame_per_ms))  #p3はp4からのms
             p.append(int((length - float(envelope[8])) * frame_per_ms)) #p4は後ろからのms
+        else:
+            p.append(int((length - float(envelope[2])) * frame_per_ms)) #p3はp4からのms
+
         p.append(length * frame_per_ms) # Pend
         v.append(0) #Vend
 

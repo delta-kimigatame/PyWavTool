@@ -36,3 +36,70 @@ class TestPyWavTool(unittest.TestCase):
         self.assertFalse(os.path.isdir(os.path.join("makedir_test")))
         wavtool=PyWavTool.WavTool(os.path.join("makedir_test", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500,[0, 0])
         self.assertTrue(os.path.isdir(os.path.join("makedir_test")))
+
+    def test_convert_data(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500, [0, 5, 30, 0, 100, 100, 0])
+        self.assertEqual(wavtool._data[0], 0)
+        self.assertEqual(44100, len(wavtool._data))
+        
+    def test_apply_cut(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500, [0, 5, 30, 0, 100, 100, 0])
+        self.assertEqual(44100, len(wavtool._data))
+        self.assertEqual(44100/2, len(wavtool._range_data))
+        
+    def test_apply_stp(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 500, 500, [0, 5, 30, 0, 100, 100, 0])
+        self.assertEqual(44100, len(wavtool._data))
+        self.assertEqual(44100/2, len(wavtool._range_data))
+        self.assertEqual(wavtool._data[22050], wavtool._range_data[0])
+
+    def test_apply_envelope_2(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500,[0, 0])
+        self.assertEqual(44100/2, len(wavtool._apply_data))
+        self.assertEqual([0]*22050, wavtool._apply_data)
+
+    def test_apply_envelope_no_change(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500,[0, 5, 30, 100, 100, 100, 100])
+        self.assertEqual(44100/2, len(wavtool._apply_data))
+        self.assertEqual(wavtool._range_data, wavtool._apply_data)
+
+    def test_apply_envelope_default(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500,[0, 5, 30, 100, 100, 100, 100])
+        wavtool._range_data=[1]*100
+        wavtool._ApplyEnvelope([0,0,5,70,100], [0,0,100,100,0])
+        self.assertEqual(wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
+        self.assertEqual(wavtool._apply_data[5:70], [1]*65)
+        self.assertEqual(wavtool._apply_data[71], 1-1/30)
+        
+    def test_apply_envelope4_2(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500,[0, 5, 30, 100, 100, 100, 100])
+        wavtool._range_data=[1]*100
+        wavtool._ApplyEnvelope([0,0,5,10,100], [0,0,100,90,0])
+        self.assertEqual(wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
+        self.assertEqual(wavtool._apply_data[5:10], [1.00, 0.98,0.96,0.94, 0.92])
+        
+    def test_apply_envelope4_samepoint(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500,[0, 5, 30, 100, 100, 100, 100])
+        wavtool._range_data=[1]*100
+        wavtool._ApplyEnvelope([0,0,5,5,100], [0,0,100,90,0])
+        self.assertEqual(wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
+        self.assertEqual(wavtool._apply_data[5], 0.9)
+
+    def test_get_envelope_default(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500, [0, 5, 30, 0, 100, 100, 0])
+        p, v = wavtool._GetEnvelopes([0, 5, 30, 0, 100, 150, 0], 100)
+        self.assertEqual(v, [0, 0, 100, 150, 0, 0])
+        self.assertEqual(p, [0, 0, int(44.1*5), int(44.1*70),  int(44.1*100)])
+
+    def test_get_envelope_9(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500, [0, 5, 30, 0, 100, 100, 0])
+        p, v = wavtool._GetEnvelopes([0, 5, 30, 0, 100, 150, 0, 5, 35], 100)
+        self.assertEqual(p, [0, 0, int(44.1*5), int(44.1*35), int(44.1*65), int(44.1*100)])
+        self.assertEqual(v, [0, 0, 100, 150, 0, 0])
+
+        
+    def test_get_envelope_11(self):
+        wavtool=PyWavTool.WavTool(os.path.join("test_output", "test.wav"), os.path.join("testdata", "440.wav"), 0, 500, [0, 5, 30, 0, 100, 100, 0])
+        p, v = wavtool._GetEnvelopes([0, 5, 30, 0, 100, 150, 0, 5, 35, 5, 80], 100)
+        self.assertEqual(p, [0, 0, int(44.1*5), int(44.1*10), int(44.1*35), int(44.1*65), int(44.1*100)])
+        self.assertEqual(v, [0, 0, 100, 80, 150, 0, 0])

@@ -33,7 +33,7 @@
         delta = float(temp[1].split("+")[1])
     elif "-" in temp[1]:
         tempo = float(temp[1].split("-")[0])
-        delta = float(temp[1].split("-")[1])
+        delta = -float(temp[1].split("-")[1])
     else:
         tempo=float(temp[1])
 

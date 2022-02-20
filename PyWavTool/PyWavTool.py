@@ -125,7 +125,7 @@ class WavTool:
             return
         for i in range(int(len(basedata)/samplewidth)):#byteからintに変換。
             data.append(int.from_bytes(basedata[i*samplewidth:(i+1)*samplewidth], 'little', signed=True))
-        self._data = list(map(lambda i:i / (2 ** (samplewidth * 8) /2), data)) #正規化
+        self._data = list(map(lambda i:i / (2 ** (samplewidth *8) /2), data)) #正規化
 
     def setEnvelope(self, envelope: list):
         '''

@@ -16,6 +16,7 @@
     <script src="_static/translations.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="length_string module" href="length_string.html" />
     <link rel="prev" title="whd module" href="whd.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -37,7 +38,7 @@
 <span id="dat-module"></span><h1>dat module<a class="headerlink" href="#module-dat" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="dat.Dat">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dat.</span></span><span class="sig-name descname"><span class="pre">Dat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.Dat" title="この定義へのパーマリンク">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dat.</span></span><span class="sig-name descname"><span class="pre">Dat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.Dat" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>wavファイルのヘッダ以外のデータ部分を扱います。</p>
 <dl class="py attribute">
@@ -76,10 +77,50 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="dat.Dat.addframeAndWrite">
+<span class="sig-name descname"><span class="pre">addframeAndWrite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dat.Dat.addframeAndWrite" title="この定義へのパーマリンク">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">self._datの末尾にdataを追加します。</div>
+<div class="line">ove(ms)分のデータは、self._dataとdataを加算します。</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>list of float</em>) -- 書き込みするwavのデータ。1で正規化されている。</p></li>
+<li><p><strong>ove</strong> (<em>float</em>) -- 既存のframeにかぶせる長さ(ms)</p></li>
+<li><p><strong>samplewidth</strong> (<em>int</em>) -- wavのビット深度</p></li>
+<li><p><strong>framerate</strong> (<em>int</em>) -- wavのサンプル周波数</p></li>
+<li><p><strong>output</strong> (<em>str</em>) -- datファイルのパス。存在する場合上書きされます。</p></li>
+</ul>
+</dd>
+<dt class="field-even">戻り値</dt>
+<dd class="field-even"><p><strong>nframes</strong> -- 追加したフレーム数</p>
+</dd>
+<dt class="field-odd">戻り値の型</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="id0">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id0" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dat.Dat.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dat.Dat.read" title="この定義へのパーマリンク">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">self._inputのデータを読み込んで、self._dataを更新します。</div>
+<div class="line">既存の値は無視されます。</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>samplewidth</strong> (<em>int</em>) -- wavのビット深度</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dat.Dat.write">
@@ -121,6 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="PyWavTool.html">PyWavTool module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whd.html">whd module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">dat module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="length_string.html">length_string module</a></li>
 </ul>
 
 <div class="relations">
@@ -128,6 +170,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="whd.html" title="前の章へ">whd module</a></li>
+      <li>Next: <a href="length_string.html" title="次の章へ">length_string module</a></li>
   </ul></li>
 </ul>
 </div>

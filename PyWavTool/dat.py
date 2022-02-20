@@ -17,7 +17,7 @@ class Dat:
     def data(self) -> list:
         return self._data
 
-    def __init__(self, input: str, samplewidth: int):
+    def __init__(self, input: str):
         '''
         Parameters
         ----------
@@ -27,13 +27,24 @@ class Dat:
             wavのビット深度
         '''
         self._data = []
-        samplewidth = int(samplewidth/8)
-        if not os.path.exists(input):
-            return
-        with open(input ,"rb") as fr:
+        self._input = input
+
+    def read(self, samplewidth: int):
+        '''
+        | self._inputのデータを読み込んで、self._dataを更新します。
+        | 既存の値は無視されます。
+        
+        Parameters
+        ----------
+        samplewidth :int
+            wavのビット深度
+        '''
+        self._data = []
+        with open(self._input ,"rb") as fr:
             tmp = fr.read()
-        for i in range(int(len(tmp)/samplewidth)):
-            self._data.append(int.from_bytes(tmp[i*samplewidth:(i+1)*samplewidth], 'little', signed=True))
+        for i in range(int(len(tmp)/samplewidth*8)):
+            self._data.append(int.from_bytes(tmp[i*int(samplewidth/8):(i+1)*int(samplewidth/8)], 'little', signed=True))
+
 
     def write(self, output: str, samplewidth: int):
         '''
@@ -71,6 +82,11 @@ class Dat:
         nframes :int
             追加したフレーム数
         '''
+        if os.path.exists(self._input):
+            with open(self._input ,"rb") as fr:
+                tmp = fr.read()
+            for i in range(int(len(tmp)/samplewidth*8)):
+                self._data.append(int.from_bytes(tmp[i*int(samplewidth/8):(i+1)*int(samplewidth/8)], 'little', signed=True))
         ove_frames :int = int(ove * framerate /1000)
         if ove_frames > len(self._data):
             ove_frames = len(self._data)

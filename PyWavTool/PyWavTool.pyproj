@@ -56,6 +56,7 @@
     <Folder Include="testdata\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="testdata\100.wav.dat" />
     <Content Include="testdata\220.wav" />
     <Content Include="testdata\440.wav" />
     <Content Include="testdata\440.wav.dat" />

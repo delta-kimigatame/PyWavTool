@@ -70,7 +70,7 @@ class WavTool:
         if os.path.split(output)[0] != "":
             os.makedirs(os.path.split(output)[0], exist_ok=True)
         self._header = whd.Whd(output + ".whd")
-        self._dat = dat.Dat(output + ".dat", self._header.samplewidth)
+        self._dat = dat.Dat(output + ".dat")
         self._output = output
             
     def applyData(self,stp: float,length: float):

@@ -12,6 +12,7 @@ Welcome to PyWavTool's documentation!
 
    PyWavTool
    whd
+   dat
 
 
 Indices and tables

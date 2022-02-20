@@ -6,6 +6,7 @@ import argparse
 from typing import Tuple
 
 import whd
+import dat
 
 ARROW_ENVELOPE_VALUES = [2, 7, 8, 9, 11]
 
@@ -84,21 +85,19 @@ class WavTool:
         self._inputCheck(input, envelope)
         os.makedirs(os.path.split(output)[0], exist_ok=True)
         self._header = whd.Whd(output + ".whd")
+        self._dat = dat.Dat(output + ".dat", self._header.samplewidth)
         if len(envelope) >= 8:
             ove = envelope[7]
         else:
             ove = 0
 
         if not self._error:
-            addframes :int = int((length-ove) * self._header.framerate / 1000)
             self._applyRange(stp, length)
             p, v = self._getEnvelopes(envelope, length)
             self._applyEnvelope(p, v)
-        #**todo**
-        #nframe - addのfrmae数文は、既存のdatの値に足す
-        #のこりのframe数はdatの末尾に追加
-        #datがない場合oveは無視する。
-        #datが足りない場合は足りない分だけ音が前にずれる。(GUI側でオーバーラップの最大を前のノート長に制限)
+            nframes: int = self._dat.addframe(self._apply_data, ove, self._header.samplewidth, self._header.framerate)
+            self._header.addframes(nframes)
+            
 
 
     def _inputCheck(self, input:str ,envelope: list):

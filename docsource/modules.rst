@@ -5,5 +5,6 @@ PyWavTool
    :maxdepth: 4
 
    PyWavTool
+   dat
    tests
    whd

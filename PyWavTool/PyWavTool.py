@@ -243,7 +243,9 @@ class WavTool:
 
         return p,v
 
-
+    def write(self):
+        self._header.write(self.output + ".whd")
+        self._dat.write(self.output + ".dat")
         
 
 
@@ -267,3 +269,4 @@ if __name__ == '__main__':
     wavtool.inputCheck(args.input)
     wavtool.setEnvelope(args.envelope)
     wavtool.applyData(args.stp, args.length)
+    wavtool.write()

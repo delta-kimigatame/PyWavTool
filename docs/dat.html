@@ -47,14 +47,14 @@
 <dd><p>wavファイルのデータ列</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of int</p>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dat.Dat.addframe">
-<span class="sig-name descname"><span class="pre">addframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dat.Dat.addframe" title="この定義へのパーマリンク">¶</a></dt>
+<span class="sig-name descname"><span class="pre">addframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dat.Dat.addframe" title="この定義へのパーマリンク">¶</a></dt>
 <dd><div class="line-block">
 <div class="line">self._datの末尾にdataを追加します。</div>
 <div class="line">ove(ms)分のデータは、self._dataとdataを加算します。</div>
@@ -62,7 +62,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">パラメータ</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>list of float</em>) -- 書き込みするwavのデータ。1で正規化されている。</p></li>
+<li><p><strong>data</strong> (<em>np.ndarray of float64</em>) -- 書き込みするwavのデータ。1で正規化されている。</p></li>
 <li><p><strong>ove</strong> (<em>float</em>) -- 既存のframeにかぶせる長さ(ms)</p></li>
 <li><p><strong>samplewidth</strong> (<em>int</em>) -- wavのビット深度</p></li>
 <li><p><strong>framerate</strong> (<em>int</em>) -- wavのサンプル周波数</p></li>
@@ -79,15 +79,15 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dat.Dat.addframeAndWrite">
-<span class="sig-name descname"><span class="pre">addframeAndWrite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dat.Dat.addframeAndWrite" title="この定義へのパーマリンク">¶</a></dt>
+<span class="sig-name descname"><span class="pre">addframeAndWrite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samplewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dat.Dat.addframeAndWrite" title="この定義へのパーマリンク">¶</a></dt>
 <dd><div class="line-block">
-<div class="line">self._datの末尾にdataを追加します。</div>
-<div class="line">ove(ms)分のデータは、self._dataとdataを加算します。</div>
+<div class="line">outputのパスを開き、dataを追加します。</div>
+<div class="line">ove(ms)分のデータは、outputから読み込んだデータとdataを加算します。</div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">パラメータ</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>list of float</em>) -- 書き込みするwavのデータ。1で正規化されている。</p></li>
+<li><p><strong>data</strong> (<em>np.ndarray</em>) -- 書き込みするwavのデータ。1で正規化されている。</p></li>
 <li><p><strong>ove</strong> (<em>float</em>) -- 既存のframeにかぶせる長さ(ms)</p></li>
 <li><p><strong>samplewidth</strong> (<em>int</em>) -- wavのビット深度</p></li>
 <li><p><strong>framerate</strong> (<em>int</em>) -- wavのサンプル周波数</p></li>
@@ -105,7 +105,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#id0" title="この定義へのパーマリンク">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#id0" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -200,7 +200,7 @@
       &copy;2022, delta_kimigatame.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

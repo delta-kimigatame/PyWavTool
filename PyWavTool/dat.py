@@ -92,7 +92,7 @@ class Dat:
 
         Parameters
         ----------
-        data :list of float
+        data :np.ndarray of float64
             書き込みするwavのデータ。1で正規化されている。
         ove :float
             既存のframeにかぶせる長さ(ms)
@@ -122,8 +122,8 @@ class Dat:
 
     def addframeAndWrite(self, data: np.ndarray, ove: float, samplewidth: int, framerate: int, output: str) -> int:
         '''
-        | self._datの末尾にdataを追加します。
-        | ove(ms)分のデータは、self._dataとdataを加算します。
+        | outputのパスを開き、dataを追加します。
+        | ove(ms)分のデータは、outputから読み込んだデータとdataを加算します。
 
         Parameters
         ----------

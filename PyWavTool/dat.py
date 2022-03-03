@@ -169,7 +169,7 @@ class Dat:
                 read_data: np.ndarray = np.frombuffer(tmp, dtype=np.int32)
 
             
-            if seek_frames != 0:
+            if seek_frames > 0:
                 data[:seek_frames] += read_data
                 
             fw.seek(-seek_frames*sample_byte, 2)
@@ -188,4 +188,4 @@ class Dat:
             else:
                 fw.write(byte_data)
                      
-        return data[ove_frames:].shape[0]
+        return data.shape[0] - read_data.shape[0]

@@ -150,8 +150,12 @@ class Dat:
         if not os.path.exists(output):
             with open(output,"wb"):
                 pass
+        if(os.path.getsize(output) < ove_frames*sample_byte):
+            seek_frames: int = int(os.path.getsize(output) / samplewidth)
+        else:
+            seek_frames: int = ove_frames
         with open(output,"r+b") as fw:
-            fw.seek(-ove_frames*sample_byte, 2)
+            fw.seek(-seek_frames*sample_byte, 2)
             tmp=fw.read()
             if samplewidth == 8:
                 read_data: np.ndarray = np.frombuffer(tmp, dtype=np.int8)
@@ -165,12 +169,10 @@ class Dat:
                 read_data: np.ndarray = np.frombuffer(tmp, dtype=np.int32)
 
             
-            if ove_frames != 0:
-                data[:ove_frames] += read_data
-
-            #data = np.concatenate([read_data, data[ove_frames:]])
+            if seek_frames != 0:
+                data[:seek_frames] += read_data
                 
-            fw.seek(-ove_frames*sample_byte, 2)
+            fw.seek(-seek_frames*sample_byte, 2)
             if samplewidth==8:
                 data = data.astype("int8")
             elif samplewidth==16:

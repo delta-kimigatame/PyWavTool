@@ -135,7 +135,7 @@ class Dat:
             tmp=fw.read()
             for i in range(int(len(tmp)/sample_byte)):
                 data[i] += int.from_bytes(tmp[i*sample_byte:(i+1)*sample_byte], 'little', signed=True)
-                
+            
             fw.seek(-ove_frames*2, 2)
             writer=b""
             for d in data:

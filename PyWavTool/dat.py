@@ -1,5 +1,6 @@
 ﻿import os
 import os.path
+import numpy as np
 
 class Dat:
     '''
@@ -7,14 +8,14 @@ class Dat:
     
     Attributes
     ----------
-    data :list of int
+    data :np.ndarray
         wavファイルのデータ列
     '''
 
-    _data: list
+    _data: np.ndarray
 
     @property
-    def data(self) -> list:
+    def data(self) -> np.ndarray:
         return self._data
 
     def __init__(self, input: str):
@@ -26,7 +27,7 @@ class Dat:
         samplewidth :int
             wavのビット深度
         '''
-        self._data = []
+        self._data = np.array([])
         self._input = input
 
     def read(self, samplewidth: int):
@@ -40,11 +41,21 @@ class Dat:
             wavのビット深度
         '''
         self._data = []
-        with open(self._input ,"rb") as fr:
-            tmp = fr.read()
-        for i in range(int(len(tmp)/samplewidth*8)):
-            self._data.append(int.from_bytes(tmp[i*int(samplewidth/8):(i+1)*int(samplewidth/8)], 'little', signed=True))
-
+        if samplewidth == 8:
+            self._data = np.fromfile(self._input, dtype=np.int8)
+        elif samplewidth == 16:
+            self._data = np.fromfile(self._input, dtype=np.int16)
+        elif samplewidth == 24:
+            with open(self._input ,"rb") as fr:
+                tmp = fr.read()
+            for i in range(int(len(tmp)/samplewidth*8)):
+                self._data.append(int.from_bytes(tmp[i*int(samplewidth/8):(i+1)*int(samplewidth/8)], 'little', signed=True))
+            self._data = np.zeros(int(len(tmp)/3), dtype = "int32")
+            for i in range(self._data.shape[0]):
+                self._data[i] = int.from_bytes(tmp[i*3:(i+1)*3], "little", signed=True)
+        elif samplewidth == 32:
+            self._data = np.fromfile(self._input, dtype=np.int32)
+        self._data = self._data.astype(np.float64)
 
     def write(self, output: str, samplewidth: int):
         '''
@@ -57,11 +68,23 @@ class Dat:
         samplewidth :int
             wavのビット深度
         '''
-        with open(output, "wb") as fw:
-            for data in self._data:
-                fw.write(data.to_bytes(int(samplewidth/8), 'little', signed=True))
+        if samplewidth==8:
+            data = self._data.astype("int8")
+        elif samplewidth==16:
+            data = self._data.astype("int16")
+        elif samplewidth==24:
+            data = self._data.astype("int32")
+            for x in self._data:
+                byte_data += x.to_bytes(3, "little", signed=True)
+        elif samplewidth==32:
+            data = self._data.astype("int32")
+        with open(output,"wb") as fw:
+            if samplewidth != 24:
+                fw.write(data.tobytes())
+            else:
+                fw.write(byte_data)
 
-    def addframe(self, data: list, ove: float, samplewidth: int, framerate: int) -> int:
+    def addframe(self, data: np.ndarray, ove: float, samplewidth: int, framerate: int) -> int:
         '''
         | self._datの末尾にdataを追加します。
         | ove(ms)分のデータは、self._dataとdataを加算します。
@@ -82,32 +105,28 @@ class Dat:
         nframes :int
             追加したフレーム数
         '''
-        if os.path.exists(self._input):
-            with open(self._input ,"rb") as fr:
-                tmp = fr.read()
-            for i in range(int(len(tmp)/samplewidth*8)):
-                self._data.append(int.from_bytes(tmp[i*int(samplewidth/8):(i+1)*int(samplewidth/8)], 'little', signed=True))
         ove_frames :int = int(ove * framerate /1000)
         if ove_frames > len(self._data):
             ove_frames = len(self._data)
+            
+        data *= ((2 ** (samplewidth)) /2)
+        if ove_frames != 0:
+            self._data[-ove_frames:] += data[:ove_frames]
 
-        ove_data=data[:ove_frames]
+        self._data = np.concatenate([self._data, data[ove_frames:]])
+        #for x in data[ove_frames:]:
+        #    self._data.append(int(x * ((2 ** (samplewidth)) /2)))
 
-        for i in range(len(ove_data)):
-            self._data[-i] += int((ove_data[-i] * ((2 ** (samplewidth)) /2)))
-        for x in data[ove_frames:]:
-            self._data.append(int(x * ((2 ** (samplewidth)) /2)))
+        return data[ove_frames:].shape[0]
 
-        return len(data[ove_frames:])
-
-    def addframeAndWrite(self, data: list, ove: float, samplewidth: int, framerate: int, output: str) -> int:
+    def addframeAndWrite(self, data: np.ndarray, ove: float, samplewidth: int, framerate: int, output: str) -> int:
         '''
         | self._datの末尾にdataを追加します。
         | ove(ms)分のデータは、self._dataとdataを加算します。
 
         Parameters
         ----------
-        data :list of float
+        data :np.ndarray
             書き込みするwavのデータ。1で正規化されている。
         ove :float
             既存のframeにかぶせる長さ(ms)
@@ -126,25 +145,44 @@ class Dat:
         ove_frames :int = int(ove * framerate /1000)
         sample_byte:int = int(samplewidth/8)
         max_amp:int = int((2**samplewidth)/2)
-        data = list(map(lambda x: int(x * max_amp), data))
+        data = data * max_amp
         if not os.path.exists(output):
             with open(output,"wb"):
                 pass
         with open(output,"r+b") as fw:
-            fw.seek(-ove_frames*2, 2)
+            fw.seek(-ove_frames*sample_byte, 2)
             tmp=fw.read()
-            for i in range(int(len(tmp)/sample_byte)):
-                data[i] += int.from_bytes(tmp[i*sample_byte:(i+1)*sample_byte], 'little', signed=True)
+            if samplewidth == 8:
+                read_data: np.ndarray = np.frombuffer(tmp, dtype=np.int8)
+            elif samplewidth == 16:
+                read_data: np.ndarray = np.frombuffer(tmp, dtype=np.int16)
+            elif samplewidth == 24:
+                read_data: np.ndarray = np.zeros(int(len(tmp)/3), dtype = "int32")
+                for i in range(self._data.shape[0]):
+                    read_data[i] = int.from_bytes(tmp[i*3:(i+1)*3], "little", signed=True)
+            elif samplewidth == 32:
+                read_data: np.ndarraya = np.frombuffer(tmp, dtype=np.int32)
+
+            
+            if ove_frames != 0:
+                data[:ove_frames] += read_data
+
+            #data = np.concatenate([read_data, data[ove_frames:]])
                 
-            fw.seek(-ove_frames*2, 2)
-            writer=b""
-            for d in data:
-                if d >= max_amp:
-                    writer += (max_amp-1).to_bytes(sample_byte, 'little', signed=True)
-                elif d <= 1-2**samplewidth/2:
-                    writer += (2-max_amp).to_bytes(sample_byte, 'little', signed=True)
-                else:
-                    writer += d.to_bytes(sample_byte, 'little', signed=True)
-            fw.write(writer)
+            fw.seek(-ove_frames*sample_byte, 2)
+            if samplewidth==8:
+                data = data.astype("int8")
+            elif samplewidth==16:
+                data = data.astype("int16")
+            elif samplewidth==24:
+                data = data.astype("int32")
+                for x in data:
+                    byte_data += x.to_bytes(3, "little", signed=True)
+            elif samplewidth==32:
+                data = data.astype("int32")
+            if samplewidth != 24:
+                fw.write(data.tobytes())
+            else:
+                fw.write(byte_data)
                      
-        return len(data[ove_frames:])
+        return data[ove_frames:].shape[0]

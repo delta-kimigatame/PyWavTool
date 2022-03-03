@@ -74,6 +74,7 @@ class Dat:
             data = self._data.astype("int16")
         elif samplewidth==24:
             data = self._data.astype("int32")
+            byte_data: bytes =b""
             for x in self._data:
                 byte_data += x.to_bytes(3, "little", signed=True)
         elif samplewidth==32:
@@ -161,7 +162,7 @@ class Dat:
                 for i in range(self._data.shape[0]):
                     read_data[i] = int.from_bytes(tmp[i*3:(i+1)*3], "little", signed=True)
             elif samplewidth == 32:
-                read_data: np.ndarraya = np.frombuffer(tmp, dtype=np.int32)
+                read_data: np.ndarray = np.frombuffer(tmp, dtype=np.int32)
 
             
             if ove_frames != 0:

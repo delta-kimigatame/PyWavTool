@@ -6,6 +6,8 @@ import argparse
 import math
 from typing import Tuple
 
+import numpy as np
+
 sys.path.append(os.path.dirname(__file__)) #embeddable pythonにimpot用のパスを追加
 import whd
 import dat
@@ -49,9 +51,9 @@ class WavTool:
     _input: str
     _stp: float
     _length: float
-    _data: list
-    _range_data :list
-    _apply_data :list
+    _data: np.ndarray
+    _range_data: np.ndarray
+    _apply_data: np.ndarray
     _header: whd.Whd
     _dat: dat.Dat
 
@@ -93,7 +95,7 @@ class WavTool:
             p, v = self._getEnvelopes(length)
             self._applyEnvelope(p, v)
         else:
-            self._apply_data = [0] * math.ceil(length * self._header.framerate / 1000)
+            self._apply_data = np.zeros(math.ceil(length * self._header.framerate / 1000))
         nframes: int = self._dat.addframeAndWrite(self._apply_data, ove, self._header.samplewidth, self._header.framerate,self._output + ".dat")
         self._header.addframes(nframes)
 
@@ -112,8 +114,6 @@ class WavTool:
         self._error = False
 
         basedata :list
-        data :list =[]
-        self._data = []
         if (not os.path.isfile(input)):
             print("input file is not found:{}".format(input))
             self._error = True
@@ -126,9 +126,19 @@ class WavTool:
             print("file format error:{} is not wave.".format(input))
             self._error = True
             return
-        for i in range(int(len(basedata)/samplewidth)):#byteからintに変換。
-            data.append(int.from_bytes(basedata[i*samplewidth:(i+1)*samplewidth], 'little', signed=True))
-        self._data = list(map(lambda i:i / (2 ** (samplewidth *8) /2), data)) #正規化
+        if samplewidth == 1:
+            data: np.ndarray = np.frombuffer(basedata, dtype=np.int8)
+        elif samplewidth == 2:
+            data: np.ndarray = np.frombuffer(basedata, dtype=np.int16)
+        elif samplewidth == 3:
+            data: np.ndarray = np.zeros(int(len(basedata)/3), dtype = "int32")
+            for i in range(self._data.shape[0]):
+                data[i] = int.from_bytes(basedata[i*3:(i+1)*3], "little", signed=True)
+        elif samplewidth == 4:
+            data: np.ndarray = np.frombuffer(basedata, dtype=np.int32)
+
+        self._data = data.astype(np.float64)
+        self._data *= (2 ** (samplewidth *8) /2) #正規化
 
     def setEnvelope(self, envelope: list):
         '''
@@ -170,7 +180,7 @@ class WavTool:
         '''
         stp_frames = int(stp * self._header.framerate / 1000)
         length_frames = int(length * self._header.framerate / 1000)
-        self._range_data = self._data[stp_frames:stp_frames + length_frames]
+        self._range_data:np.ndarray = self._data[stp_frames:stp_frames + length_frames]
 
     def _applyEnvelope(self, p :list, v :list):
         '''
@@ -186,25 +196,10 @@ class WavTool:
         '''
 
         if len(p) == 0: #休符等の例外
-            self._apply_data = [0] * len(self._range_data)
+            self._apply_data = np.zeros_like(self._range_data)
             return
 
-        self._apply_data = []
-        pos: int = 0
-        while p[pos] == p[pos+1]:
-            pos = pos + 1
-            if pos >= len(p):
-                break
-        delta:float = (v[pos+1] - v[pos]) / (p[pos+1] - p[pos])
-        for i in range(len(self._range_data)):
-            if i >= p[pos + 1]:
-                pos = pos +1
-                while p[pos] == p[pos+1]:
-                    pos = pos + 1
-                    if pos >= len(p):
-                        break
-                delta = (v[pos+1] - v[pos]) / (p[pos+1] - p[pos])
-            self._apply_data.append((v[pos] + delta * (i - p[pos])) / 100 * self._range_data[i])
+        self._apply_data = self._range_data * np.interp(np.arange(self._range_data.shape[0]), p, v[:len(p)]) / 100
 
     def _getEnvelopes(self, length: float) -> Tuple[list, list]:
         '''

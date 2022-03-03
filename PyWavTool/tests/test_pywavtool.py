@@ -4,6 +4,8 @@ import os
 import os.path
 import shutil
 
+import numpy as np
+
 import PyWavTool
 
 class TestPyWavToolInput(unittest.TestCase):
@@ -80,37 +82,37 @@ class TestPyWavToolMain(unittest.TestCase):
         self.wavtool.setEnvelope([0, 0])
         self.wavtool.applyData(0, 500)
         self.assertEqual(44100/2, len(self.wavtool._apply_data))
-        self.assertEqual([0]*22050, self.wavtool._apply_data)
+        np.testing.assert_array_equal(self.wavtool._apply_data, np.zeros(22050))
 
     def test_apply_envelope_no_change(self):
         self.wavtool.setEnvelope([0, 5, 30, 100, 100, 100, 100])
         self.wavtool.applyData(0, 500)
         self.assertEqual(44100/2, len(self.wavtool._apply_data))
-        self.assertEqual(self.wavtool._range_data, self.wavtool._apply_data)
+        np.testing.assert_array_equal(self.wavtool._range_data, self.wavtool._apply_data)
 
     def test_apply_envelope_default(self):
         self.wavtool.setEnvelope([0, 5, 30, 100, 100, 100, 100])
         self.wavtool.applyData(0, 500)
-        self.wavtool._range_data=[1]*100
+        self.wavtool._range_data=np.ones(100)
         self.wavtool._applyEnvelope([0,0,5,70,100], [0,0,100,100,0])
-        self.assertEqual(self.wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
-        self.assertEqual(self.wavtool._apply_data[5:70], [1]*65)
+        np.testing.assert_array_equal(self.wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
+        np.testing.assert_array_equal(self.wavtool._apply_data[5:70], [1]*65)
         self.assertEqual(self.wavtool._apply_data[71], 1-1/30)
         
     def test_apply_envelope4_2(self):
         self.wavtool.setEnvelope([0, 5, 30, 100, 100, 100, 100])
         self.wavtool.applyData(0, 500)
-        self.wavtool._range_data=[1]*100
+        self.wavtool._range_data=np.ones(100)
         self.wavtool._applyEnvelope([0,0,5,10,100], [0,0,100,90,0])
-        self.assertEqual(self.wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
-        self.assertEqual(self.wavtool._apply_data[5:10], [1.00, 0.98,0.96,0.94, 0.92])
+        np.testing.assert_array_equal(self.wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
+        np.testing.assert_array_equal(self.wavtool._apply_data[5:10], [1.00, 0.98,0.96,0.94, 0.92])
         
     def test_apply_envelope4_samepoint(self):
         self.wavtool.setEnvelope([0, 5, 30, 100, 100, 100, 100])
         self.wavtool.applyData(0, 500)
-        self.wavtool._range_data=[1]*100
+        self.wavtool._range_data=np.ones(100)
         self.wavtool._applyEnvelope([0,0,5,5,100], [0,0,100,90,0])
-        self.assertEqual(self.wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
+        np.testing.assert_array_equal(self.wavtool._apply_data[0:5], [0,0.2,0.4,0.6,0.8])
         self.assertEqual(self.wavtool._apply_data[5], 0.9)
 
     def test_get_envelope_default(self):

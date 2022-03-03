@@ -138,7 +138,7 @@ class WavTool:
             data: np.ndarray = np.frombuffer(basedata, dtype=np.int32)
 
         self._data = data.astype(np.float64)
-        self._data *= (2 ** (samplewidth *8) /2) #正規化
+        self._data /= (2 ** (samplewidth *8) /2) #正規化
 
     def setEnvelope(self, envelope: list):
         '''

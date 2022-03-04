@@ -34,7 +34,7 @@
 import PyWavTool
 
 #class init
-wavtool = PyWavTool("output_path.wav")
+wavtool = PyWavTool.WavTool("output_path.wav")
 
 #input
 wavtool.inputCheck("input_path.wav")
@@ -48,9 +48,9 @@ wavtool.write()
 
 #make wav
 with open("output_path.wav", "wb") as fw:
-    with open("output_path.wav.whd", "fb") as fr:
+    with open("output_path.wav.whd", "rb") as fr:
         fw.write(fr.read())
-    with open("output_path.wav.dat", "fb") as fr:
+    with open("output_path.wav.dat", "rb") as fr:
         fw.write(fr.read())
 ```
 

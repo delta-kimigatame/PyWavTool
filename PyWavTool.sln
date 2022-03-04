@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docsource\index.rst = docsource\index.rst
 		docs\make.bat = docs\make.bat
 		README.md = README.md
+		release\PYPI\setup.cfg = release\PYPI\setup.cfg
+		test_token.txt = test_token.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PyWavToolExe", "PyWavToolExe\PyWavToolExe.csproj", "{E66BA919-B97D-4655-9654-E570E309A851}"
